@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Macedon Ranges Brew Club</title>
+<script src="https://unpkg.com/netlify-identity-widget@1/build/netlify-identity-widget.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#1a0f07;--bg2:#231508;--bg3:#2c1a0e;
+  --border:#3d2410;--border2:#4a2e12;
+  --gold:#e8a020;--gold2:#8b6914;--gold3:#c8a86b;
+  --cream:#f5e6c8;--text:#e8d5b7;--muted:#c8b89a;
+  --dim:#9a8a70;--faint:#6b5030;
+  --serif:'Playfair Display',Georgia,serif;
+  --body:'EB Garamond',Georgia,serif;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;min-height:100vh;}
+button{cursor:pointer;font-family:var(--body);}
+input,textarea,select{font-family:var(--body);}
+
+/* NAV */
+#nav{background:linear-gradient(135deg,#2c1a0e 0%,#3d2410 100%);border-bottom:2px solid var(--gold2);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.5);}
+#nav-brand{background:none;border:none;display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;}
+#nav-brand span{font-family:var(--serif);color:var(--cream);font-size:0.95rem;font-style:italic;line-height:1.2;text-align:left;}
+#nav-brand span small{font-size:0.7rem;letter-spacing:0.15em;font-style:normal;color:var(--gold3);text-transform:uppercase;display:block;}
+#nav-links{display:flex;gap:0;flex-wrap:wrap;}
+.nav-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--gold3);font-family:var(--serif);font-size:0.82rem;letter-spacing:0.06em;padding:1.2rem 0.85rem;transition:all 0.2s;}
+.nav-btn:hover{color:var(--cream);}
+.nav-btn.active{background:rgba(139,105,20,0.3);color:var(--cream);border-bottom-color:var(--gold);}
+#admin-bar{background:#120a04;border-bottom:1px solid var(--border2);padding:0.4rem 1.5rem;display:none;align-items:center;justify-content:space-between;gap:1rem;}
+#admin-bar.visible{display:flex;}
+#admin-bar span{font-family:var(--body);color:var(--gold2);font-size:0.8rem;}
+.admin-bar-btns{display:flex;gap:0.5rem;}
+.btn-admin-link{background:rgba(232,160,32,0.15);border:1px solid var(--gold2);color:var(--gold);font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:2px;text-decoration:none;font-family:var(--body);}
+.btn-logout{background:none;border:1px solid #5a1a1a;color:#c05050;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:2px;}
+
+/* PAGES */
+.page{display:none;}.page.active{display:block;}
+
+/* HERO */
+#hero{background:linear-gradient(180deg,#2c1a0e 0%,#1a0f07 100%);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden;}
+#hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:0.5;}
+#hero-inner{position:relative;max-width:700px;margin:0 auto;}
+#hero h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3.5rem);font-style:italic;color:var(--cream);margin:1.5rem 0 0.5rem;line-height:1.15;text-shadow:0 2px 30px rgba(0,0,0,0.6);}
+#hero .est{font-family:var(--body);font-size:0.95rem;color:var(--gold3);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;}
+#hero p{font-family:var(--body);font-size:1.05rem;color:#d4c0a0;line-height:1.85;max-width:520px;margin:0 auto;}
+
+.section{max-width:900px;margin:0 auto;padding:3rem 1.5rem;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:1rem;}
+.card{background:linear-gradient(135deg,#2c1a0e,#231508);border:1px solid var(--border2);border-radius:4px;padding:2rem 1.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.35);}
+.card .icon{font-size:2rem;margin-bottom:0.75rem;}
+.card h3{font-family:var(--serif);color:var(--gold);font-size:1.1rem;margin-bottom:0.75rem;font-style:italic;}
+.card p{font-family:var(--body);color:var(--muted);line-height:1.75;font-size:0.95rem;}
+.sep{display:flex;align-items:center;gap:1rem;margin:2.5rem 0;}
+.sep-line-l{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold2));}
+.sep-line-r{flex:1;height:1px;background:linear-gradient(to left,transparent,var(--gold2));}
+.section-title{font-family:var(--serif);color:var(--cream);font-size:1.8rem;font-style:italic;margin-bottom:1.5rem;text-align:center;}
+.event-row{display:flex;gap:1.5rem;align-items:flex-start;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:2px;padding:1.25rem 1.5rem;margin-bottom:0.75rem;}
+.event-day{text-align:center;min-width:52px;}
+.event-day .num{font-family:var(--serif);font-size:1.75rem;color:var(--gold);line-height:1;}
+.event-day .mon{font-size:0.7rem;letter-spacing:0.1em;color:var(--gold2);text-transform:uppercase;}
+.event-info{flex:1;}
+.event-info .title{font-family:var(--serif);color:var(--cream);font-size:1rem;font-style:italic;}
+.event-info .loc{font-size:0.82rem;color:var(--gold3);margin-top:0.25rem;}
+.event-info .desc{font-size:0.82rem;color:var(--dim);margin-top:0.25rem;}
+
+/* CONTACT FORM */
+.contact-form{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:2rem;max-width:520px;margin:0 auto;}
+.contact-form h2{font-family:var(--serif);color:var(--cream);font-size:1.8rem;font-style:italic;margin-bottom:0.75rem;text-align:center;}
+.contact-form p{font-family:var(--body);color:var(--muted);font-size:0.95rem;line-height:1.8;text-align:center;margin-bottom:1.5rem;}
+.form-group{margin-bottom:1rem;}
+.form-label{display:block;font-family:var(--body);font-size:0.75rem;color:var(--gold2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+.form-input,.form-textarea,.form-select{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--body);font-size:0.95rem;padding:0.6rem 0.75rem;border-radius:2px;}
+.form-textarea{resize:vertical;}
+.form-input:focus,.form-textarea:focus{outline:none;border-color:var(--gold2);}
+.btn-submit{width:100%;background:rgba(232,160,32,0.18);border:1.5px solid var(--gold);color:var(--gold);font-family:var(--serif);font-size:1rem;font-style:italic;padding:0.75rem;border-radius:2px;margin-top:0.5rem;transition:background 0.2s;}
+.btn-submit:hover{background:rgba(232,160,32,0.3);}
+.form-success{text-align:center;padding:1.5rem;font-family:var(--serif);color:var(--gold);font-style:italic;font-size:1.1rem;display:none;}
+
+/* CALENDAR */
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.cal-nav{background:none;border:1px solid var(--border2);color:var(--gold3);font-size:1.2rem;padding:0.4rem 1rem;border-radius:2px;}
+.cal-title{font-family:var(--serif);color:var(--cream);font-size:1.4rem;font-style:italic;}
+.cal-grid{background:var(--bg2);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
+.cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg3);}
+.cal-days-header span{text-align:center;padding:0.6rem 0;font-family:var(--body);font-size:0.75rem;letter-spacing:0.1em;color:var(--gold2);text-transform:uppercase;}
+.cal-cells{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-cell{border-top:1px solid var(--bg3);border-right:1px solid var(--bg3);min-height:70px;padding:0.4rem;cursor:pointer;transition:background 0.15s;}
+.cal-cell:hover{background:rgba(139,105,20,0.1);}
+.cal-cell.selected{background:rgba(139,105,20,0.2);}
+.cal-cell.today .day-num{color:var(--gold);font-weight:bold;}
+.cal-cell.empty{cursor:default;}
+.day-num{font-family:var(--serif);font-size:1rem;color:var(--muted);margin-bottom:0.3rem;}
+.cal-pill{background:var(--gold);color:#1a0f07;border-radius:2px;font-size:0.6rem;padding:1px 4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:var(--body);font-weight:bold;}
+.sel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
+.sel-title{font-family:var(--serif);color:var(--cream);font-size:1.2rem;font-style:italic;}
+.event-card-edit{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.25rem 1.5rem;margin-bottom:0.75rem;border-radius:2px;display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;}
+
+/* ADMIN-ONLY ELEMENTS — hidden by default */
+.admin-only{display:none;}
+body.is-admin .admin-only{display:block;}
+body.is-admin .admin-only-flex{display:flex;}
+.admin-only-flex{display:none;}
+.admin-note{background:rgba(232,160,32,0.08);border:1px dashed var(--gold2);border-radius:2px;padding:0.6rem 1rem;margin-bottom:1rem;font-family:var(--body);font-size:0.82rem;color:var(--gold2);text-align:center;}
+
+/* NEWS */
+.article{background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:1.5rem;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.3);}
+.article-inner{padding:1.75rem;}
+.article-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem;}
+.article-left{display:flex;gap:0.75rem;align-items:center;}
+.tag-pill{color:var(--cream);font-size:0.68rem;padding:0.2rem 0.7rem;border-radius:2px;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--body);}
+.article-date{font-family:var(--body);font-size:0.82rem;color:var(--gold2);}
+.article h2{font-family:var(--serif);color:var(--cream);font-size:1.3rem;font-style:italic;margin-bottom:0.75rem;line-height:1.35;}
+.article p{font-family:var(--body);color:var(--muted);font-size:0.95rem;line-height:1.8;}
+.read-more{background:none;border:none;color:var(--gold);font-family:var(--body);font-size:0.85rem;padding:0.5rem 0 0;font-style:italic;display:block;}
+
+/* GET INVOLVED */
+.involved-head{text-align:center;margin-bottom:2.5rem;}
+.involved-head h1{font-family:var(--serif);color:var(--cream);font-size:2.4rem;font-style:italic;margin:1rem 0 0.5rem;}
+.involved-head p{color:var(--gold2);font-size:0.82rem;letter-spacing:0.15em;text-transform:uppercase;}
+.involved-body p{font-family:var(--body);color:var(--muted);font-size:1rem;line-height:1.85;margin-bottom:1rem;}
+.sub-heading{font-family:var(--serif);color:var(--cream);font-size:1.5rem;font-style:italic;margin:2rem 0 1rem;}
+.benefit-list{list-style:none;padding:0;margin:1rem 0 1.5rem;}
+.benefit-list li{display:flex;gap:1rem;align-items:flex-start;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:0.75rem;}
+.benefit-icon{font-size:1.6rem;flex-shrink:0;margin-top:0.1rem;}
+.benefit-text{font-family:var(--body);color:var(--muted);font-size:0.95rem;line-height:1.7;}
+.benefit-text strong{color:var(--cream);font-family:var(--serif);font-style:italic;display:block;margin-bottom:0.2rem;}
+
+/* RECIPES */
+.recipes-head{text-align:center;margin-bottom:2rem;}
+.recipes-head h1{font-family:var(--serif);color:var(--cream);font-size:2.2rem;font-style:italic;margin:1rem 0 0.25rem;}
+.recipes-head p{color:var(--gold2);font-size:0.82rem;letter-spacing:0.15em;text-transform:uppercase;}
+.recipe-card{background:var(--bg2);border:1px solid var(--border);border-radius:4px;margin-bottom:1.5rem;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.3);}
+.recipe-header{padding:1.5rem 1.75rem 1rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+.recipe-title-block h2{font-family:var(--serif);color:var(--cream);font-size:1.4rem;font-style:italic;margin-bottom:0.35rem;}
+.recipe-style-label{font-family:var(--body);color:var(--gold3);font-size:0.82rem;letter-spacing:0.08em;}
+.recipe-stats{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.stat-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:0.3rem 0.7rem;text-align:center;}
+.stat-chip .sv{font-family:var(--serif);color:var(--gold);font-size:1rem;line-height:1;}
+.stat-chip .sk{font-family:var(--body);color:var(--dim);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;margin-top:0.1rem;}
+.recipe-body{padding:0 1.75rem 1.5rem;}
+.recipe-desc{font-family:var(--body);color:var(--muted);font-size:0.95rem;line-height:1.8;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.recipe-sections{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;}
+.recipe-section h4{font-family:var(--serif);color:var(--gold2);font-size:0.85rem;font-style:italic;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.5rem;}
+.recipe-section ul{list-style:none;padding:0;}
+.recipe-section ul li{font-family:var(--body);color:var(--muted);font-size:0.88rem;line-height:1.7;padding-left:0.75rem;position:relative;}
+.recipe-section ul li::before{content:'–';position:absolute;left:0;color:var(--gold2);}
+
+/* LOADING */
+.loading{text-align:center;padding:3rem;font-family:var(--serif);color:var(--gold2);font-style:italic;font-size:1.1rem;}
+
+/* FOOTER */
+footer{background:#120a04;border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--faint);font-family:var(--body);font-size:0.78rem;letter-spacing:0.05em;}
+footer .ft2{margin-top:0.25rem;color:#4a3020;}
+#footer-admin-btn{background:none;border:none;color:#3a2010;font-size:0.7rem;margin-top:0.75rem;display:inline-block;cursor:pointer;font-family:var(--body);}
+#footer-admin-btn:hover{color:var(--faint);}
+
+@media(max-width:600px){
+  #nav{padding:0 0.75rem;}
+  .nav-btn{padding:1rem 0.55rem;font-size:0.72rem;}
+  #hero{padding:3rem 1rem 2.5rem;}
+  .section{padding:2rem 1rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ADMIN BAR (only shown when logged in) -->
+<div id="admin-bar">
+  <span>🔑 Admin mode — only you can see this bar</span>
+  <div class="admin-bar-btns">
+    <a href="/admin/" class="btn-admin-link">Open CMS Admin</a>
+    <button class="btn-logout" onclick="netlifyIdentity.logout()">Log Out</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <button class="nav-btn" id="nav-brand" onclick="showPage('home')">
+    <svg width="44" height="44" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 8C108 8 114 14 120 12C128 10 132 18 140 18C148 18 152 26 158 28C166 30 168 40 172 44C178 50 176 60 180 66C184 72 182 82 184 90C186 98 182 106 182 114C182 122 178 128 176 136C174 144 168 148 164 154C160 160 152 162 148 168C144 174 136 174 130 178C124 182 116 180 110 182C104 184 100 192 100 192C100 192 96 184 90 182C84 180 76 182 70 178C64 174 56 174 52 168C48 162 40 160 36 154C32 148 26 144 24 136C22 128 18 122 18 114C18 106 14 98 16 90C18 82 16 72 20 66C24 60 22 50 28 44C32 40 34 30 42 28C48 26 52 18 60 18C68 18 72 10 80 12C86 14 92 8 100 8Z" fill="#3a3a3a" stroke="#888" stroke-width="2"/>
+      <ellipse cx="90" cy="36" rx="6" ry="8" fill="#c8b89a" opacity="0.8"/><line x1="90" y1="28" x2="90" y2="44" stroke="#6b6b6b" stroke-width="1"/>
+      <ellipse cx="114" cy="36" rx="6" ry="8" fill="#c8b89a" opacity="0.8"/><line x1="114" y1="28" x2="114" y2="44" stroke="#6b6b6b" stroke-width="1"/>
+      <g transform="translate(32,110) rotate(-20)"><ellipse cx="4" cy="12" rx="4" ry="7" fill="#c8b89a"/><ellipse cx="11" cy="8" rx="4" ry="7" fill="#c8b89a"/><ellipse cx="18" cy="4" rx="4" ry="7" fill="#c8b89a"/><line x1="4" y1="12" x2="22" y2="-2" stroke="#6b6b6b" stroke-width="1.5"/></g>
+      <g transform="translate(168,110) rotate(160)"><ellipse cx="4" cy="12" rx="4" ry="7" fill="#c8b89a"/><ellipse cx="11" cy="8" rx="4" ry="7" fill="#c8b89a"/><ellipse cx="18" cy="4" rx="4" ry="7" fill="#c8b89a"/><line x1="4" y1="12" x2="22" y2="-2" stroke="#6b6b6b" stroke-width="1.5"/></g>
+      <path d="M70 150 Q80 144 90 150 Q100 156 110 150 Q120 144 130 150" stroke="#c8b89a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M70 158 Q80 152 90 158 Q100 164 110 158 Q120 152 130 158" stroke="#c8b89a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <text x="100" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-style="italic" fill="#f5e6c8" font-weight="bold">Macedon</text>
+      <text x="100" y="99" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#f5e6c8" font-weight="bold">Ranges Brew</text>
+      <text x="100" y="117" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-style="italic" fill="#f5e6c8" font-weight="bold">Club</text>
+      <text x="100" y="136" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#c8b89a" letter-spacing="2">Est. 2014</text>
+    </svg>
+    <span>Macedon Ranges<br/><small>Brew Club</small></span>
+  </button>
+  <div id="nav-links">
+    <button class="nav-btn active" onclick="showPage('home')">Home</button>
+    <button class="nav-btn" onclick="showPage('involved')">Get Involved</button>
+    <button class="nav-btn" onclick="showPage('calendar')">Calendar</button>
+    <button class="nav-btn" onclick="showPage('news')">News</button>
+    <button class="nav-btn" onclick="showPage('recipes')">Recipes</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div id="hero">
+    <div id="hero-inner">
+      <svg width="160" height="160" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 8C108 8 114 14 120 12C128 10 132 18 140 18C148 18 152 26 158 28C166 30 168 40 172 44C178 50 176 60 180 66C184 72 182 82 184 90C186 98 182 106 182 114C182 122 178 128 176 136C174 144 168 148 164 154C160 160 152 162 148 168C144 174 136 174 130 178C124 182 116 180 110 182C104 184 100 192 100 192C100 192 96 184 90 182C84 180 76 182 70 178C64 174 56 174 52 168C48 162 40 160 36 154C32 148 26 144 24 136C22 128 18 122 18 114C18 106 14 98 16 90C18 82 16 72 20 66C24 60 22 50 28 44C32 40 34 30 42 28C48 26 52 18 60 18C68 18 72 10 80 12C86 14 92 8 100 8Z" fill="#3a3a3a"/>
+        <ellipse cx="90" cy="36" rx="6" ry="8" fill="#5aaf3c" opacity="0.9"/><line x1="90" y1="28" x2="90" y2="44" stroke="#3d8a25" stroke-width="1"/>
+        <ellipse cx="114" cy="36" rx="6" ry="8" fill="#5aaf3c" opacity="0.9"/><line x1="114" y1="28" x2="114" y2="44" stroke="#3d8a25" stroke-width="1"/>
+        <g transform="translate(30,108) rotate(-20)"><ellipse cx="4" cy="12" rx="4" ry="7" fill="#e8a020"/><ellipse cx="11" cy="8" rx="4" ry="7" fill="#e8a020"/><ellipse cx="18" cy="4" rx="4" ry="7" fill="#e8a020"/><line x1="4" y1="12" x2="22" y2="-2" stroke="#c07a10" stroke-width="1.5"/></g>
+        <g transform="translate(170,108) rotate(160)"><ellipse cx="4" cy="12" rx="4" ry="7" fill="#e8a020"/><ellipse cx="11" cy="8" rx="4" ry="7" fill="#e8a020"/><ellipse cx="18" cy="4" rx="4" ry="7" fill="#e8a020"/><line x1="4" y1="12" x2="22" y2="-2" stroke="#c07a10" stroke-width="1.5"/></g>
+        <path d="M68 150 Q78 144 88 150 Q98 156 108 150 Q118 144 128 150" stroke="#4a9fd4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M68 158 Q78 152 88 158 Q98 164 108 158 Q118 152 128 158" stroke="#4a9fd4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M68 166 Q78 160 88 166 Q98 172 108 166 Q118 160 128 166" stroke="#4a9fd4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <text x="100" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-style="italic" fill="#f5e6c8" font-weight="bold">Macedon</text>
+        <text x="100" y="99" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#f5e6c8" font-weight="bold">Ranges Brew</text>
+        <text x="100" y="117" text-anchor="middle" font-family="Georgia,serif" font-size="15" font-style="italic" fill="#f5e6c8" font-weight="bold">Club</text>
+        <text x="100" y="136" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#c8b89a" letter-spacing="2">Est. 2014</text>
+      </svg>
+      <h1>Macedon Ranges<br/>Brew Club</h1>
+      <p class="est">Est. 2014 · Macedon Ranges, Victoria</p>
+      <p>A passionate community of home brewers based in the beautiful Macedon Ranges. We gather to brew, share, learn, and celebrate the craft of making great beer.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="card-grid">
+      <div class="card"><div class="icon">🍺</div><h3>Who We Are</h3><p>We're a friendly bunch of home brewers from across the Macedon Ranges — from Kyneton to Gisborne, Woodend to Romsey. Our members range from curious beginners to seasoned competition brewers, all united by a love of craft.</p></div>
+      <div class="card"><div class="icon">🌾</div><h3>What We Do</h3><p>We meet monthly to trade tips and tastings. We run friendly brew comps to hone our skills. We host get-togethers to share our creations.</p></div>
+    </div>
+    <div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>
+    <h2 class="section-title">Upcoming Events</h2>
+    <div id="home-events"><div class="loading">Loading events...</div></div>
+    <div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>
+    <div class="contact-form">
+      <h2>Join the Club</h2>
+      <p>Membership is open to all home brewers in the Macedon Ranges. Come along to any meeting as a guest first — no commitment required.</p>
+      <div id="home-form-success" class="form-success">Thanks! We'll be in touch soon. 🍺</div>
+      <div id="home-form-fields">
+        <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" id="hf-name" placeholder="First and last name"/></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="hf-email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input form-textarea" id="hf-message" rows="3" placeholder="Tell us a bit about yourself..."></textarea></div>
+        <button class="btn-submit" onclick="submitHomeForm()">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GET INVOLVED PAGE -->
+<div id="page-involved" class="page">
+  <div class="section">
+    <div class="involved-head">
+      <h1>Come Brew With Us</h1>
+      <p>Macedon Ranges Brew Club</p>
+    </div>
+    <div class="involved-body">
+      <p>We hold an informal club meet on the last Wednesday of each month at <strong style="color:var(--cream);">Holgate Brewhouse in Woodend</strong>. Club meets are a chance to catch up, share brew stories and taste each other's creations.</p>
+      <p>All are welcome, from old hands to amateurs.</p>
+      <div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>
+      <h3 class="sub-heading">Membership</h3>
+      <p>While we never charge just for attendance to our monthly meetings (including the tastings!) we have created an optional <strong style="color:var(--cream);">$60 annual membership fee</strong> which helps support club activities and gives access to club projects. Here's a few benefits:</p>
+      <ul class="benefit-list">
+        <li><div class="benefit-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="5.5" rx="9" ry="3.5" fill="#8b6914"/><ellipse cx="16" cy="26.5" rx="9" ry="3.5" fill="#8b6914"/><path d="M7 5.5 Q5.5 16 7 26.5" stroke="#c07a10" stroke-width="2" fill="none"/><path d="M25 5.5 Q26.5 16 25 26.5" stroke="#c07a10" stroke-width="2" fill="none"/><path d="M7 5.5 Q16 7 25 5.5" fill="#c8a86b" opacity="0.2"/><path d="M7 26.5 Q16 25 25 26.5" fill="#c8a86b" opacity="0.2"/><rect x="5.5" y="13" width="21" height="2" rx="1" fill="#8b6914" opacity="0.9"/><rect x="5.5" y="17" width="21" height="2" rx="1" fill="#8b6914" opacity="0.9"/><path d="M9 6 Q8 16 9 26" stroke="#c8a86b" stroke-width="1" fill="none" opacity="0.5"/><path d="M23 6 Q24 16 23 26" stroke="#c8a86b" stroke-width="1" fill="none" opacity="0.5"/><path d="M16 6.5 L16 25.5" stroke="#c8a86b" stroke-width="1" fill="none" opacity="0.3"/></svg></div><div class="benefit-text"><strong>Barrel Projects</strong>Access to our club barrel projects. We have one sour barrel and two ex-bourbon barrels which we fill each year, producing some special and quirky brews.</div></li>
+        <li><div class="benefit-icon">🏆</div><div class="benefit-text"><strong>Competitions &amp; Community</strong>Involvement in club competitions and the broader Victorian homebrew club scene. MRBC has enjoyed much success in statewide competitions, inter-club brew-offs and more.</div></li>
+        <li><div class="benefit-icon">👕</div><div class="benefit-text"><strong>Club Merch</strong>Free or discounted club merchandise.</div></li>
+      </ul>
+      <div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>
+      <p>If you'd like to come along or learn more, fill out the form below or email <a href="mailto:macedonrangesbrewers@gmail.com.au" style="color:var(--gold);">macedonrangesbrewers@gmail.com.au</a></p>
+      <div style="height:1.5rem;"></div>
+      <div id="inv-form-success" class="form-success">Thanks! We'll be in touch soon. 🍺</div>
+      <div id="inv-form-fields">
+        <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" id="if-name" placeholder="First and last name"/></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" id="if-email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input form-textarea" id="if-message" rows="4" placeholder="Tell us about yourself or ask a question..."></textarea></div>
+        <button class="btn-submit" onclick="submitInvolvedForm()">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR PAGE -->
+<div id="page-calendar" class="page">
+  <div class="section">
+    <h1 style="font-family:var(--serif);color:var(--cream);font-size:2.2rem;font-style:italic;text-align:center;margin-bottom:0.25rem;">Events Calendar</h1>
+    <p style="text-align:center;color:var(--gold2);font-size:0.82rem;letter-spacing:0.12em;margin-bottom:1.5rem;text-transform:uppercase;">Macedon Ranges Brew Club</p>
+    <div class="admin-only admin-note">You're logged in as admin. To add or edit events, use the <a href="/admin/" style="color:var(--gold);">CMS Admin panel</a>.</div>
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calPrev()">&#8249;</button>
+      <span class="cal-title" id="cal-month-title"></span>
+      <button class="cal-nav" onclick="calNext()">&#8250;</button>
+    </div>
+    <div class="cal-grid">
+      <div class="cal-days-header"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div class="cal-cells" id="cal-cells"></div>
+    </div>
+    <div id="sel-day-section" style="display:none;margin-bottom:2rem;">
+      <div class="sel-header"><span class="sel-title" id="sel-day-title"></span></div>
+      <div id="sel-day-events"></div>
+    </div>
+    <div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>
+    <h3 style="font-family:var(--serif);color:var(--cream);font-size:1.4rem;font-style:italic;margin-bottom:1rem;">All Upcoming Events</h3>
+    <div id="upcoming-list"><div class="loading">Loading events...</div></div>
+  </div>
+</div>
+
+<!-- NEWS PAGE -->
+<div id="page-news" class="page">
+  <div class="section">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <h1 style="font-family:var(--serif);color:var(--cream);font-size:2.2rem;font-style:italic;margin-bottom:0.25rem;">Club News</h1>
+      <p style="color:var(--gold2);font-size:0.82rem;letter-spacing:0.15em;text-transform:uppercase;">Latest from the Macedon Ranges Brew Club</p>
+    </div>
+    <div class="admin-only admin-note">You're logged in as admin. To add or edit news, use the <a href="/admin/" style="color:var(--gold);">CMS Admin panel</a>.</div>
+    <div id="news-list"><div class="loading">Loading news...</div></div>
+  </div>
+</div>
+
+<!-- RECIPES PAGE -->
+<div id="page-recipes" class="page">
+  <div class="section">
+    <div class="recipes-head">
+      <h1>Club Recipes</h1>
+      <p>Brewed &amp; Shared by the Macedon Ranges Brew Club</p>
+    </div>
+    <div class="admin-only admin-note">You're logged in as admin. To add or edit recipes, use the <a href="/admin/" style="color:var(--gold);">CMS Admin panel</a>.</div>
+    <div id="recipe-list"><div class="loading">Loading recipes...</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>Macedon Ranges Brew Club · Est. 2014 · Macedon Ranges, Victoria</div>
+  <div class="ft2">Never brew alone.</div>
+  <button id="footer-admin-btn" onclick="netlifyIdentity.open()">Admin login</button>
+</footer>
+
+<script>
+// ── IDENTITY ──────────────────────────────────────────────────
+netlifyIdentity.on('login', function(){
+  document.body.classList.add('is-admin');
+  document.getElementById('admin-bar').classList.add('visible');
+  document.getElementById('footer-admin-btn').style.display='none';
+  netlifyIdentity.close();
+});
+netlifyIdentity.on('logout', function(){
+  document.body.classList.remove('is-admin');
+  document.getElementById('admin-bar').classList.remove('visible');
+  document.getElementById('footer-admin-btn').style.display='inline-block';
+});
+netlifyIdentity.on('init', function(user){
+  if(user){
+    document.body.classList.add('is-admin');
+    document.getElementById('admin-bar').classList.add('visible');
+    document.getElementById('footer-admin-btn').style.display='none';
+  }
+});
+
+// ── CONSTANTS ─────────────────────────────────────────────────
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const CONTACT_EMAIL='macedonrangesbrewers@gmail.com.au';
+const REPO_RAW=''; // auto-detected from current origin
+
+// ── UTILS ─────────────────────────────────────────────────────
+function pad(n){return String(n).padStart(2,'0');}
+function todayStr(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
+function formatDate(iso){if(!iso)return '';const[y,m,d]=iso.split('-');return `${parseInt(d)} ${MONTHS[parseInt(m)-1]} ${y}`;}
+function tagColor(tag){return {'Competition':'#b5651d','Club News':'#4a7c59','Event Recap':'#7a6a3e','Brewing Tips':'#3a6b8a','Announcement':'#6b3a7a'}[tag]||'#8b7355';}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sep(){return `<div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>`;}
+
+// ── FETCH DATA FROM GITHUB JSON FILES ─────────────────────────
+async function fetchJSON(path){
+  try{
+    const r=await fetch(path+'?nocache='+Date.now());
+    if(!r.ok)return null;
+    return await r.json();
+  }catch(e){return null;}
+}
+
+async function loadAllData(){
+  // Fetch index files that list available content
+  const [eventsIndex, newsIndex, recipesIndex] = await Promise.all([
+    fetchJSON('/_data/events/index.json'),
+    fetchJSON('/_data/news/index.json'),
+    fetchJSON('/_data/recipes/index.json'),
+  ]);
+  return {
+    events: eventsIndex || [],
+    news: newsIndex || [],
+    recipes: recipesIndex || [],
+  };
+}
+
+// ── STATE ─────────────────────────────────────────────────────
+let allEvents=[], allNews=[], allRecipes=[];
+let calYear,calMonth,selDay=null;
+let expandedNews=new Set();
+
+// ── PAGE NAV ──────────────────────────────────────────────────
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const label={home:'Home',involved:'Get Involved',calendar:'Calendar',news:'News',recipes:'Recipes'}[name];
+  document.querySelectorAll('.nav-btn').forEach(b=>{if(b.textContent.trim()===label)b.classList.add('active');});
+  if(name==='calendar')renderCalendar();
+  if(name==='news')renderNews();
+  if(name==='recipes')renderRecipes();
+}
+
+// ── HOME EVENTS ───────────────────────────────────────────────
+function renderHomeEvents(){
+  const sorted=[...allEvents].sort((a,b)=>a.date.localeCompare(b.date)).filter(e=>e.date>=todayStr()).slice(0,3);
+  const el=document.getElementById('home-events');
+  if(sorted.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;text-align:center;padding:1rem;">No upcoming events — check back soon.</p>`;return;}
+  el.innerHTML=sorted.map(ev=>`
+    <div class="event-row">
+      <div class="event-day"><div class="num">${parseInt(ev.date.split('-')[2])}</div><div class="mon">${MONTHS_SHORT[parseInt(ev.date.split('-')[1])-1]}</div></div>
+      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${escHtml(ev.description)}</div></div>
+    </div>`).join('');
+}
+
+// ── CONTACT FORMS ─────────────────────────────────────────────
+function submitHomeForm(){
+  const name=document.getElementById('hf-name').value.trim();
+  const email=document.getElementById('hf-email').value.trim();
+  const msg=document.getElementById('hf-message').value.trim();
+  if(!name||!email){alert('Please fill in your name and email.');return;}
+  window.location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('MRBC Website Enquiry')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
+  document.getElementById('home-form-fields').style.display='none';
+  document.getElementById('home-form-success').style.display='block';
+}
+function submitInvolvedForm(){
+  const name=document.getElementById('if-name').value.trim();
+  const email=document.getElementById('if-email').value.trim();
+  const msg=document.getElementById('if-message').value.trim();
+  if(!name||!email){alert('Please fill in your name and email.');return;}
+  window.location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('MRBC Get Involved Enquiry')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
+  document.getElementById('inv-form-fields').style.display='none';
+  document.getElementById('inv-form-success').style.display='block';
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────
+function initCal(){const d=new Date();calYear=d.getFullYear();calMonth=d.getMonth();}
+function calPrev(){if(calMonth===0){calMonth=11;calYear--;}else calMonth--;renderCalendar();}
+function calNext(){if(calMonth===11){calMonth=0;calYear++;}else calMonth++;renderCalendar();}
+function renderCalendar(){
+  document.getElementById('cal-month-title').textContent=`${MONTHS[calMonth]} ${calYear}`;
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const td=todayStr();
+  let html='';
+  for(let i=0;i<firstDay;i++)html+=`<div class="cal-cell empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const iso=`${calYear}-${pad(calMonth+1)}-${pad(d)}`;
+    const dayEvs=allEvents.filter(e=>e.date===iso);
+    const isTd=iso===td,isSel=selDay===d;
+    html+=`<div class="cal-cell${isTd?' today':''}${isSel?' selected':''}" onclick="selectDay(${d})">
+      <div class="day-num">${d}</div>
+      ${dayEvs.map(e=>`<div class="cal-pill">${escHtml(e.title)}</div>`).join('')}
+    </div>`;
+  }
+  document.getElementById('cal-cells').innerHTML=html;
+  renderSelDay();renderUpcoming();
+}
+function selectDay(d){selDay=(selDay===d)?null:d;renderCalendar();}
+function renderSelDay(){
+  const sec=document.getElementById('sel-day-section');
+  if(!selDay){sec.style.display='none';return;}
+  sec.style.display='block';
+  document.getElementById('sel-day-title').textContent=`${selDay} ${MONTHS[calMonth]}`;
+  const iso=`${calYear}-${pad(calMonth+1)}-${pad(selDay)}`;
+  const dayEvs=allEvents.filter(e=>e.date===iso);
+  document.getElementById('sel-day-events').innerHTML=dayEvs.length===0
+    ?`<p style="color:var(--faint);font-style:italic;font-size:0.9rem;">No events on this day.</p>`
+    :dayEvs.map(ev=>`
+      <div class="event-card-edit">
+        <div>
+          <div style="font-family:var(--serif);color:var(--cream);font-style:italic;">${escHtml(ev.title)}</div>
+          <div style="color:var(--gold3);font-size:0.82rem;margin-top:0.2rem;">${escHtml(ev.location)}</div>
+          <div style="color:var(--dim);font-size:0.82rem;margin-top:0.3rem;line-height:1.6;">${escHtml(ev.description)}</div>
+        </div>
+      </div>`).join('');
+}
+function renderUpcoming(){
+  const sorted=[...allEvents].sort((a,b)=>a.date.localeCompare(b.date));
+  const el=document.getElementById('upcoming-list');
+  if(sorted.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;">No events yet.</p>`;return;}
+  el.innerHTML=sorted.map(ev=>`
+    <div class="event-row" style="margin-bottom:0.75rem;">
+      <div class="event-day"><div class="num">${parseInt(ev.date.split('-')[2])}</div><div class="mon">${MONTHS_SHORT[parseInt(ev.date.split('-')[1])-1]}</div></div>
+      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${escHtml(ev.description)}</div></div>
+    </div>`).join('');
+}
+
+// ── NEWS ──────────────────────────────────────────────────────
+function renderNews(){
+  const sorted=[...allNews].sort((a,b)=>b.date.localeCompare(a.date));
+  const el=document.getElementById('news-list');
+  if(sorted.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;text-align:center;padding:2rem;">No news yet — check back soon.</p>`;return;}
+  el.innerHTML=sorted.map(item=>{
+    const isExp=expandedNews.has(item.title);
+    return `<div class="article"><div class="article-inner">
+      <div class="article-meta">
+        <div class="article-left">
+          <span class="tag-pill" style="background:${tagColor(item.tag)}">${escHtml(item.tag)}</span>
+          <span class="article-date">${formatDate(item.date)}</span>
+        </div>
+      </div>
+      <h2>${escHtml(item.title)}</h2>
+      <p>${escHtml(isExp?item.body:item.excerpt)}</p>
+      ${item.body&&item.body!==item.excerpt?`<button class="read-more" onclick="toggleNews('${escHtml(item.title).replace(/'/g,"\\'")}'">${isExp?'Show less ↑':'Read more ↓'}</button>`:''}
+    </div></div>`;
+  }).join('');
+}
+function toggleNews(title){if(expandedNews.has(title))expandedNews.delete(title);else expandedNews.add(title);renderNews();}
+
+// ── RECIPES ───────────────────────────────────────────────────
+function renderRecipes(){
+  const el=document.getElementById('recipe-list');
+  if(allRecipes.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;text-align:center;padding:2rem;">No recipes yet — check back soon.</p>`;return;}
+  el.innerHTML=allRecipes.map(r=>`
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <div class="recipe-title-block"><h2>${escHtml(r.title)}</h2><div class="recipe-style-label">${escHtml(r.style)}</div></div>
+        <div class="recipe-stats">
+          ${r.og?`<div class="stat-chip"><div class="sv">${escHtml(r.og)}</div><div class="sk">OG</div></div>`:''}
+          ${r.fg?`<div class="stat-chip"><div class="sv">${escHtml(r.fg)}</div><div class="sk">FG</div></div>`:''}
+          ${r.abv?`<div class="stat-chip"><div class="sv">${escHtml(r.abv)}%</div><div class="sk">ABV</div></div>`:''}
+          ${r.ibu?`<div class="stat-chip"><div class="sv">${escHtml(r.ibu)}</div><div class="sk">IBU</div></div>`:''}
+          ${r.ebc?`<div class="stat-chip"><div class="sv">${escHtml(r.ebc)}</div><div class="sk">EBC</div></div>`:''}
+        </div>
+      </div>
+      <div class="recipe-body">
+        ${r.description?`<p class="recipe-desc">${escHtml(r.description)}</p>`:''}
+        <div class="recipe-sections">
+          ${r.malt&&r.malt.length?`<div class="recipe-section"><h4>🌾 Malt</h4><ul>${r.malt.map(m=>`<li>${escHtml(m.entry||m)}</li>`).join('')}</ul></div>`:''}
+          ${r.hops&&r.hops.length?`<div class="recipe-section"><h4>🌿 Hops</h4><ul>${r.hops.map(h=>`<li>${escHtml(h.entry||h)}</li>`).join('')}</ul></div>`:''}
+          ${r.mash_steps&&r.mash_steps.length?`<div class="recipe-section"><h4>🔥 Mash</h4><ul>${r.mash_steps.map(s=>`<li>${escHtml(s.name)} — ${escHtml(s.temp)} / ${escHtml(s.time)}</li>`).join('')}</ul></div>`:''}
+          ${r.yeast?`<div class="recipe-section"><h4>🧫 Yeast</h4><ul><li>${escHtml(r.yeast)}</li></ul></div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── LOAD DATA & INIT ──────────────────────────────────────────
+async function init(){
+  initCal();
+  // Load all JSON data files
+  const [evFiles, newsFiles, recipeFiles] = await Promise.all([
+    loadFolder('/_data/events/'),
+    loadFolder('/_data/news/'),
+    loadFolder('/_data/recipes/'),
+  ]);
+  allEvents=evFiles;
+  allNews=newsFiles;
+  allRecipes=recipeFiles;
+  renderHomeEvents();
+  // Pre-render calendar if it becomes active
+  renderCalendar();
+}
+
+async function loadFolder(path){
+  // Fetch the folder index to know which files exist
+  try{
+    const idx=await fetch(path+'index.json?t='+Date.now());
+    if(idx.ok){
+      const files=await idx.json();
+      const results=await Promise.all(files.map(f=>fetchJSON(path+f)));
+      return results.filter(Boolean);
+    }
+  }catch(e){}
+  // Fallback: try to load known sample files
+  return [];
+}
+
+init();
+</script>
+</body>
+</html>
