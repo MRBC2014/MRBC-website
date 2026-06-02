@@ -1,0 +1,16 @@
+{
+  "title": "Summer Saison",
+  "style": "Belgian Saison",
+  "description": "A bright, spicy summer saison with a dry finish. Perfect for sharing at a warm afternoon brew day.",
+  "og": "1.058",
+  "fg": "1.008",
+  "abv": "6.5",
+  "ibu": "24",
+  "ebc": "8",
+  "malt": ["4kg Pilsner Malt", "500g Vienna Malt", "300g Acidulated Malt"],
+  "hops": ["30g Saaz @ 60 min", "15g Styrian Goldings @ 10 min", "10g Saaz @ flameout"],
+  "mash_steps": [
+    { "name": "Saccharification", "temp": "65°C", "time": "60 min" }
+  ],
+  "yeast": "Wyeast 3724 Belgian Saison"
+}
