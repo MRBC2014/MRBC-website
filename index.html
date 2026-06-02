@@ -1,3 +1,18 @@
+None selected
+
+Skip to content
+Using Gmail with screen readers
+1 of 1,039
+(no subject)
+Inbox
+
+Lachlan Walsh
+Attachments
+11:44 PM (0 minutes ago)
+to me
+
+ 4 Attachments
+  •  Scanned by Gmail
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -544,9 +559,9 @@ async function init(){
     fetchJSON('/_data/news.json'),
     fetchJSON('/_data/recipes.json'),
   ]);
-  allEvents = events || [];
-  allNews = news || [];
-  allRecipes = recipes || [];
+  allEvents = (events && events.events) || [];
+  allNews = (news && news.news) || [];
+  allRecipes = (recipes && recipes.recipes) || [];
   renderHomeEvents();
   renderCalendar();
 }
@@ -555,3 +570,5 @@ init();
 </script>
 </body>
 </html>
+index-1.html
+Displaying index-1.html.
