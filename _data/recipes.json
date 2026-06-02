@@ -27,6 +27,35 @@
       ],
       "ibu": "24",
       "description": "A bright, spicy summer saison with a dry finish. Perfect for sharing at a warm afternoon brew day.\nThis recipe was entirely written by AI in the process of designing this website. If anyone tries it out, we would be genuinely curious how it turns out."
-    }
+    },
+    {
+      "fg": "1.010",
+      "ebc": "6.8",
+      "hops": [
+        "Warrior (15% AA) 60 minute - 27.8 IBU",
+        "Hallertauer (4%) 10 minute  - 2.4 IBU"
+      ],
+      "style": "German Pilsner",
+      "mash_steps": [
+        {
+          "name": "Single step",
+          "temp": "66°C",
+          "time": "60 minutes"
+        }
+      ],
+      "abv": "5",
+      "yeast": "WYEAST #2206",
+      "og": "1.048",
+      "title": "Paul's Silver Pils",
+      "malt": [
+        "German Pilsner 87.5%",
+        "Carapils 12.5%"
+      ],
+      "ibu": "30.2",
+      "description": "Winner of silver medal in lager category at Beerfest 2016.\n\nFerment at 10°C for 12 days, then increase by 4°C per day up to 18°C, 18°C 2 days then decrease by 4° per day until 2° is reached. Lager @ 2°C for 3 weeks"
+    },
+    {},
+    {},
+    {}
   ]
 }
