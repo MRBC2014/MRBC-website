@@ -384,20 +384,6 @@ async function fetchJSON(path){
   }catch(e){return null;}
 }
 
-async function loadAllData(){
-  // Fetch index files that list available content
-  const [eventsIndex, newsIndex, recipesIndex] = await Promise.all([
-    fetchJSON('/_data/events/index.json'),
-    fetchJSON('/_data/news/index.json'),
-    fetchJSON('/_data/recipes/index.json'),
-  ]);
-  return {
-    events: eventsIndex || [],
-    news: newsIndex || [],
-    recipes: recipesIndex || [],
-  };
-}
-
 // ── STATE ─────────────────────────────────────────────────────
 let allEvents=[], allNews=[], allRecipes=[];
 let calYear,calMonth,selDay=null;
@@ -553,32 +539,16 @@ function renderRecipes(){
 // ── LOAD DATA & INIT ──────────────────────────────────────────
 async function init(){
   initCal();
-  // Load all JSON data files
-  const [evFiles, newsFiles, recipeFiles] = await Promise.all([
-    loadFolder('/_data/events/'),
-    loadFolder('/_data/news/'),
-    loadFolder('/_data/recipes/'),
+  const [events, news, recipes] = await Promise.all([
+    fetchJSON('/_data/events.json'),
+    fetchJSON('/_data/news.json'),
+    fetchJSON('/_data/recipes.json'),
   ]);
-  allEvents=evFiles;
-  allNews=newsFiles;
-  allRecipes=recipeFiles;
+  allEvents = events || [];
+  allNews = news || [];
+  allRecipes = recipes || [];
   renderHomeEvents();
-  // Pre-render calendar if it becomes active
   renderCalendar();
-}
-
-async function loadFolder(path){
-  // Fetch the folder index to know which files exist
-  try{
-    const idx=await fetch(path+'index.json?t='+Date.now());
-    if(idx.ok){
-      const files=await idx.json();
-      const results=await Promise.all(files.map(f=>fetchJSON(path+f)));
-      return results.filter(Boolean);
-    }
-  }catch(e){}
-  // Fallback: try to load known sample files
-  return [];
 }
 
 init();
