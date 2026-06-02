@@ -1,16 +1,18 @@
-[
-  {
-    "title": "Winter Warmer Challenge Announced",
-    "date": "2026-05-28",
-    "tag": "Competition",
-    "excerpt": "Get your mash paddles ready — our annual Winter Warmer Challenge is back for 2026, welcoming entries in stouts, porters, dark ales, and winter warmers.",
-    "body": "Get your mash paddles ready — our annual Winter Warmer Challenge is back for 2026. This year we're welcoming entries in stouts, porters, dark ales, and winter warmers. Entries close July 12. All members are encouraged to participate — first-timers especially welcome. Judging will be done BJCP-style with written scoresheets returned to each brewer."
-  },
-  {
-    "title": "Welcome to Our Newest Members",
-    "date": "2026-05-10",
-    "tag": "Club News",
-    "excerpt": "A warm welcome to the six new brewers who joined the club in May. We're thrilled to have such enthusiasm in our community.",
-    "body": "A warm welcome to the six new brewers who joined the club in May. We're thrilled to have such enthusiasm in our community. Our new members bring experience ranging from absolute beginners to seasoned all-grain brewers. If you see a new face at the next meeting, introduce yourself and share a pint!"
-  }
-]
+{
+  "news": [
+    {
+      "title": "Winter Warmer Challenge Announced",
+      "date": "2026-05-28",
+      "tag": "Competition",
+      "excerpt": "Get your mash paddles ready — our annual Winter Warmer Challenge is back for 2026, welcoming entries in stouts, porters, dark ales, and winter warmers.",
+      "body": "Get your mash paddles ready — our annual Winter Warmer Challenge is back for 2026. This year we're welcoming entries in stouts, porters, dark ales, and winter warmers. Entries close July 12. All members are encouraged to participate — first-timers especially welcome. Judging will be done BJCP-style with written scoresheets returned to each brewer."
+    },
+    {
+      "title": "Welcome to Our Newest Members",
+      "date": "2026-05-10",
+      "tag": "Club News",
+      "excerpt": "A warm welcome to the six new brewers who joined the club in May. We're thrilled to have such enthusiasm in our community.",
+      "body": "A warm welcome to the six new brewers who joined the club in May. We're thrilled to have such enthusiasm in our community. Our new members bring experience ranging from absolute beginners to seasoned all-grain brewers. If you see a new face at the next meeting, introduce yourself and share a pint!"
+    }
+  ]
+}
