@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: MRBC2014/mrbc-website
+  repo: MRBC2014/MRBC-website
   branch: main
 
 media_folder: "images"
