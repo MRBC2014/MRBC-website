@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Macedon Ranges Brew Club</title>
-<script src="https://unpkg.com/netlify-identity-widget@1/build/netlify-identity-widget.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
@@ -19,7 +18,7 @@
   --serif:'Playfair Display',Georgia,serif;
   --body:'EB Garamond',Georgia,serif;
 }
-html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:18px;min-height:100vh;}
+html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;min-height:100vh;}
 button{cursor:pointer;font-family:var(--body);}
 input,textarea,select{font-family:var(--body);}
 
@@ -175,7 +174,7 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
   <span>🔑 Admin mode — only you can see this bar</span>
   <div class="admin-bar-btns">
     <a href="/admin/" class="btn-admin-link">Open CMS Admin</a>
-    <button class="btn-logout" onclick="netlifyIdentity.logout()">Log Out</button>
+    <a href="/mrbc-website/admin/" class="btn-admin-link">Go to CMS</a>
   </div>
 </div>
 
@@ -337,29 +336,13 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
 <footer>
   <div>Macedon Ranges Brew Club · Est. 2014 · Macedon Ranges, Victoria</div>
   <div class="ft2">Never brew alone.</div>
-  <button id="footer-admin-btn" onclick="netlifyIdentity.open()">Admin login</button>
+  <a id="footer-admin-btn" href="/mrbc-website/admin/" style="color:#3a2010;font-size:0.7rem;margin-top:0.75rem;display:inline-block;font-family:var(--body);">Admin</a>
 </footer>
 
 <script>
 // ── IDENTITY ──────────────────────────────────────────────────
-netlifyIdentity.on('login', function(){
-  document.body.classList.add('is-admin');
-  document.getElementById('admin-bar').classList.add('visible');
-  document.getElementById('footer-admin-btn').style.display='none';
-  netlifyIdentity.close();
-});
-netlifyIdentity.on('logout', function(){
-  document.body.classList.remove('is-admin');
-  document.getElementById('admin-bar').classList.remove('visible');
-  document.getElementById('footer-admin-btn').style.display='inline-block';
-});
-netlifyIdentity.on('init', function(user){
-  if(user){
-    document.body.classList.add('is-admin');
-    document.getElementById('admin-bar').classList.add('visible');
-    document.getElementById('footer-admin-btn').style.display='none';
-  }
-});
+// Admin bar and footer button are hidden by default (CSS)
+// When visiting /admin/ you log in via GitHub OAuth
 
 // ── CONSTANTS ─────────────────────────────────────────────────
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
