@@ -523,9 +523,9 @@ function renderRecipes(){
 async function init(){
   initCal();
   const [events, news, recipes] = await Promise.all([
-    fetchJSON('/_data/events.json'),
-    fetchJSON('/_data/news.json'),
-    fetchJSON('/_data/recipes.json'),
+    fetchJSON('/MRBC-website/_data/events.json'),
+    fetchJSON('/MRBC-website/_data/news.json'),
+    fetchJSON('/MRBC-website/_data/recipes.json'),
   ]);
   allEvents = (events && events.events) || [];
   allNews = (news && news.news) || [];
