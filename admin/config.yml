@@ -2,8 +2,6 @@ backend:
   name: github
   repo: MRBC2014/mrbc-website
   branch: main
-  base_url: https://mrbc-oauth.onrender.com
-  auth_endpoint: /auth
 
 media_folder: "images"
 public_folder: "/images"
