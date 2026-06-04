@@ -465,6 +465,35 @@ function renderNews(){
 }
 function toggleNews(idx){if(expandedNews.has(idx))expandedNews.delete(idx);else expandedNews.add(idx);renderNews();}
 
+// ── RECIPES ───────────────────────────────────────────────────
+function renderRecipes(){
+  const el=document.getElementById('recipe-list');
+  if(!allRecipes||allRecipes.length===0){el.innerHTML='<p style="color:var(--faint);font-style:italic;text-align:center;padding:2rem;">No recipes yet — check back soon.</p>';return;}
+  el.innerHTML=allRecipes.map(r=>{
+    const stats=[
+      r.og?'<div class="stat-chip"><div class="sv">'+escHtml(r.og)+'</div><div class="sk">OG</div></div>':'',
+      r.fg?'<div class="stat-chip"><div class="sv">'+escHtml(r.fg)+'</div><div class="sk">FG</div></div>':'',
+      r.abv?'<div class="stat-chip"><div class="sv">'+escHtml(r.abv)+'%</div><div class="sk">ABV</div></div>':'',
+      r.ibu?'<div class="stat-chip"><div class="sv">'+escHtml(r.ibu)+'</div><div class="sk">IBU</div></div>':'',
+      r.ebc?'<div class="stat-chip"><div class="sv">'+escHtml(r.ebc)+'</div><div class="sk">EBC</div></div>':'',
+    ].join('');
+    const malt=r.malt&&r.malt.length?'<div class="recipe-section"><h4>🌾 Malt</h4><ul>'+r.malt.map(m=>'<li>'+escHtml(m.entry||m)+'</li>').join('')+'</ul></div>':'';
+    const hops=r.hops&&r.hops.length?'<div class="recipe-section"><h4>🌿 Hops</h4><ul>'+r.hops.map(h=>'<li>'+escHtml(h.entry||h)+'</li>').join('')+'</ul></div>':'';
+    const mash=r.mash_steps&&r.mash_steps.length?'<div class="recipe-section"><h4>🔥 Mash</h4><ul>'+r.mash_steps.map(s=>'<li>'+escHtml(s.name)+' — '+escHtml(s.temp)+' / '+escHtml(s.time)+'</li>').join('')+'</ul></div>':'';
+    const yeast=r.yeast?'<div class="recipe-section"><h4>🧫 Yeast</h4><ul><li>'+escHtml(r.yeast)+'</li></ul></div>':'';
+    const desc=r.description?'<p class="recipe-desc">'+(r.description||'').replace(/
+/g,'<br>')+'</p>':'';
+    return '<div class="recipe-card">'
+      +'<div class="recipe-header">'
+      +'<div class="recipe-title-block"><h2>'+escHtml(r.title)+'</h2><div class="recipe-style-label">'+escHtml(r.style||'')+'</div></div>'
+      +'<div class="recipe-stats">'+stats+'</div>'
+      +'</div>'
+      +'<div class="recipe-body">'+desc
+      +'<div class="recipe-sections">'+malt+hops+mash+yeast+'</div>'
+      +'</div></div>';
+  }).join('');
+}
+
 // ── LOAD DATA & INIT ──────────────────────────────────────────
 async function init(){
   initCal();
