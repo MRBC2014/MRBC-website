@@ -372,23 +372,47 @@ function renderHomeEvents(){
 }
 
 // ── CONTACT FORMS ─────────────────────────────────────────────
-function submitHomeForm(){
+async function submitHomeForm(){
   const name=document.getElementById('hf-name').value.trim();
   const email=document.getElementById('hf-email').value.trim();
   const msg=document.getElementById('hf-message').value.trim();
   if(!name||!email){alert('Please fill in your name and email.');return;}
-  window.location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('MRBC Website Enquiry')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
-  document.getElementById('home-form-fields').style.display='none';
-  document.getElementById('home-form-success').style.display='block';
+  try{
+    const r=await fetch('https://formspree.io/f/mojzqndw',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name,email,message:msg,_subject:'MRBC Join the Club Enquiry'})
+    });
+    if(r.ok){
+      document.getElementById('home-form-fields').style.display='none';
+      document.getElementById('home-form-success').style.display='block';
+    } else {
+      alert('Something went wrong. Please try again or email us directly at macedonrangesbrewers@gmail.com');
+    }
+  }catch(e){
+    alert('Something went wrong. Please try again or email us directly at macedonrangesbrewers@gmail.com');
+  }
 }
-function submitInvolvedForm(){
+async function submitInvolvedForm(){
   const name=document.getElementById('if-name').value.trim();
   const email=document.getElementById('if-email').value.trim();
   const msg=document.getElementById('if-message').value.trim();
   if(!name||!email){alert('Please fill in your name and email.');return;}
-  window.location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('MRBC Get Involved Enquiry')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`)}`;
-  document.getElementById('inv-form-fields').style.display='none';
-  document.getElementById('inv-form-success').style.display='block';
+  try{
+    const r=await fetch('https://formspree.io/f/mojzqndw',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name,email,message:msg,_subject:'MRBC Get Involved Enquiry'})
+    });
+    if(r.ok){
+      document.getElementById('inv-form-fields').style.display='none';
+      document.getElementById('inv-form-success').style.display='block';
+    } else {
+      alert('Something went wrong. Please try again or email us directly at macedonrangesbrewers@gmail.com');
+    }
+  }catch(e){
+    alert('Something went wrong. Please try again or email us directly at macedonrangesbrewers@gmail.com');
+  }
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────
