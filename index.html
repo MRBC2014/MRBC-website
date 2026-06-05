@@ -174,7 +174,7 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
   <span>🔑 Admin mode — only you can see this bar</span>
   <div class="admin-bar-btns">
     <a href="/admin/" class="btn-admin-link">Open CMS Admin</a>
-    <a href="/mrbc-website/admin/" class="btn-admin-link">Go to CMS</a>
+    <a href="/admin/" class="btn-admin-link">Go to CMS</a>
   </div>
 </div>
 
@@ -311,7 +311,7 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
 <footer>
   <div>Macedon Ranges Brew Club · Est. 2014 · Macedon Ranges, Victoria</div>
   <div class="ft2">Never brew alone.</div>
-  <a id="footer-admin-btn" href="/mrbc-website/admin/" style="color:#3a2010;font-size:0.78rem;margin-top:0.75rem;display:inline-block;font-family:var(--body);">Admin</a>
+  <a id="footer-admin-btn" href="/admin/" style="color:#3a2010;font-size:0.78rem;margin-top:0.75rem;display:inline-block;font-family:var(--body);">Admin</a>
 </footer>
 
 <script>
@@ -521,9 +521,9 @@ function renderRecipes(){
 async function init(){
   initCal();
   const [events, news, recipes] = await Promise.all([
-    fetchJSON('/MRBC-website/_data/events.json'),
-    fetchJSON('/MRBC-website/_data/news.json'),
-    fetchJSON('/MRBC-website/_data/recipes.json'),
+    fetchJSON('/_data/events.json'),
+    fetchJSON('/_data/news.json'),
+    fetchJSON('/_data/recipes.json'),
   ]);
   allEvents = (events && events.events) || [];
   allNews = (news && news.news) || [];
