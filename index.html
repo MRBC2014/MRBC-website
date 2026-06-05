@@ -89,13 +89,13 @@ input,textarea,select{font-family:var(--body);}
 .cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg3);}
 .cal-days-header span{text-align:center;padding:0.6rem 0;font-family:var(--body);font-size:0.82rem;letter-spacing:0.1em;color:var(--gold2);text-transform:uppercase;}
 .cal-cells{display:grid;grid-template-columns:repeat(7,1fr);}
-.cal-cell{border-top:1px solid var(--bg3);border-right:1px solid var(--bg3);min-height:70px;padding:0.4rem;cursor:pointer;transition:background 0.15s;}
+.cal-cell{border-top:1px solid var(--bg3);border-right:1px solid var(--bg3);min-height:70px;padding:0.4rem;cursor:pointer;transition:background 0.15s;overflow:hidden;min-width:0;}
 .cal-cell:hover{background:rgba(139,105,20,0.1);}
 .cal-cell.selected{background:rgba(139,105,20,0.2);}
 .cal-cell.today .day-num{color:var(--gold);font-weight:bold;}
 .cal-cell.empty{cursor:default;}
 .day-num{font-family:var(--serif);font-size:1rem;color:var(--muted);margin-bottom:0.3rem;}
-.cal-pill{background:var(--gold);color:#1a0f07;border-radius:2px;font-size:0.68rem;padding:1px 4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:var(--body);font-weight:bold;}
+.cal-pill{background:var(--gold);color:#1a0f07;border-radius:2px;font-size:0.68rem;padding:1px 4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-family:var(--body);font-weight:bold;max-width:100%;display:block;}
 .sel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
 .sel-title{font-family:var(--serif);color:var(--cream);font-size:1.2rem;font-style:italic;}
 .event-card-edit{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.25rem 1.5rem;margin-bottom:0.75rem;border-radius:2px;display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;}
@@ -464,7 +464,7 @@ function renderUpcoming(){
   el.innerHTML=sorted.map(ev=>`
     <div class="event-row" style="margin-bottom:0.75rem;">
       <div class="event-day"><div class="num">${parseInt(ev.date.split('-')[2])}</div><div class="mon">${MONTHS_SHORT[parseInt(ev.date.split('-')[1])-1]}</div></div>
-      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${escHtml(ev.description)}</div></div>
+      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${(ev.description||'').split('\n').join('<br>')}</div></div>
     </div>`).join('');
 }
 
