@@ -545,7 +545,7 @@ function renderSelDay(){
         <div>
           <div style="font-family:var(--serif);color:var(--cream);font-style:italic;">${escHtml(ev.title)}</div>
           <div style="color:var(--gold3);font-size:0.97rem;margin-top:0.2rem;">${escHtml(ev.location)}</div>
-          <div style="color:var(--dim);font-size:0.97rem;margin-top:0.3rem;line-height:1.6;">${escHtml(ev.description)}</div>
+          <div style="color:var(--dim);font-size:0.97rem;margin-top:0.3rem;line-height:1.6;">${(ev.description||'').split('\n').join('<br>')}</div>
         </div>
       </div>`).join('');
 }
