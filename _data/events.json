@@ -23,6 +23,24 @@
       "date": "2026-07-11",
       "location": "Footscray City Rowing Club",
       "description": "Australia's largest amateur stout competition!\n11/07/2026 is the cutoff date for entries.\nThere are 3 main categories: Porter, Stout and Strong Stout.\nCheck the website for further details: https://www.westgatebrewers.org/stout-extravaganza/\nDropoff locations are Backyard Homebrew Co in Brooklyn, Keg King in Springvale and The Great Beyond in Coburg"
+    },
+    {
+      "title": "Rocktoberfest",
+      "date": "2026-10-24",
+      "location": "The Vic Hotel - Woodend",
+      "description": "Hosted by Rock & Ranges.\nThey will be brewing Paul's Dunkel recipe as a special release for the event, so definitely worth heading along.\nMore details to come."
+    },
+    {
+      "title": "Oktoberfest",
+      "date": "2026-10-17",
+      "location": "Kyneton",
+      "description": "Our annual Oktoberfest celebration!\nBring your best German (or German adjacent) beers.\nMore details to come."
+    },
+    {
+      "title": "VicBrew cutoff",
+      "date": "2026-11-29",
+      "location": "Victoria",
+      "description": "This is the cutoff date for entries into VicBrew.\nWe have some fantastic brewers here in the Ranges, would love to see us putting some entries in!"
     }
   ]
 }
