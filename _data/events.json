@@ -1,40 +1,22 @@
 {
   "events": [
     {
-      "title": "Winter Warmer",
-      "date": "2026-08-29",
-      "location": "Malmsbury",
-      "description": "Our annual Winter gettogether. Bring along your favourite dark and strong beers as we see off the last of Winter in style."
-    },
-    {
-      "title": "Monthly Club Meet with Belgian Beer Competition",
-      "date": "2026-08-26",
-      "location": "Holgate Brewhouse",
-      "description": "Don't forget your Belgian Brews. Will you take home the trophy?\n\nUsual tastings and club affairs to follow the comp."
-    },
-    {
-      "title": "Rocktoberfest",
-      "date": "2026-10-24",
-      "location": "The Vic Hotel - Woodend",
-      "description": "Hosted by Rock & Ranges.\nThey will be brewing Paul's Dunkel recipe as a special release for the event, so definitely worth heading along.\nMore details to come."
-    },
-    {
-      "title": "Oktoberfest",
-      "date": "2026-10-17",
-      "location": "Kyneton",
-      "description": "Our annual Oktoberfest celebration!\nBring your best German (or German adjacent) beers.\nMore details to come."
-    },
-    {
-      "title": "VicBrew cutoff",
-      "date": "2026-08-22",
-      "location": "Victoria",
-      "description": "This is the cutoff date for entries into VicBrew.\nWe have some fantastic brewers here in the Ranges, would love to see us putting some entries in!"
-    },
-    {
       "title": "Brewstock",
       "date": "2026-11-07",
       "location": "TBC",
       "description": "We will be joining other Victorian brew clubs for Brewstock. Our theme will be New Zealand. There will be music, brew talks, plenty of beer. Should be a great day."
+    },
+    {
+      "title": "Kyneton Show cutoff date",
+      "date": "2026-11-17",
+      "location": "Kyneton Showgrounds",
+      "description": "Get your entries in! Lots of great prizes on offer. See the Kyneton Show Homebrew Comp page on this site."
+    },
+    {
+      "title": "Kyneton Show Judging",
+      "date": "2026-11-19",
+      "location": "Kyneton Showgrounds",
+      "description": "Always a fun day judging everybody's cracking beers."
     }
   ]
 }
