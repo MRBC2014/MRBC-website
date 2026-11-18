@@ -238,6 +238,9 @@ body.is-admin .admin-only-flex{display:flex;}
 .cal-sub-link code{display:block;margin-top:0.3rem;color:var(--gold3);user-select:all;}
 .cal-sub-copied{color:var(--gold);font-size:0.85rem;margin-top:0.4rem;min-height:1.1em;}
 
+/* On phones, calendar labels show just the title (there's no room for the time too) */
+@media(max-width:600px){.pill-time{display:none;}}
+
 /* FOOTER */
 footer{background:#120a04;border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--faint);font-family:var(--body);font-size:0.92rem;letter-spacing:0.05em;}
 footer .ft2{margin-top:0.25rem;color:#4a3020;}
@@ -683,7 +686,7 @@ function renderCalendar(){
     const isTd=iso===td,isSel=selDay===d;
     html+=`<div class="cal-cell${isTd?' today':''}${isSel?' selected':''}" onclick="selectDay(${d})">
       <div class="day-num">${d}</div>
-      ${dayEvs.map(e=>`<div class="cal-pill">${parseTime(e.start_time)!==null?fmtTime(parseTime(e.start_time),true)+' ':''}${escHtml(e.title)}</div>`).join('')}
+      ${dayEvs.map(e=>`<div class="cal-pill">${parseTime(e.start_time)!==null?`<span class="pill-time">${fmtTime(parseTime(e.start_time),true)} </span>`:''}${escHtml(e.title)}</div>`).join('')}
     </div>`;
   }
   document.getElementById('cal-cells').innerHTML=html;
