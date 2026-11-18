@@ -1,0 +1,47 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Macedon Ranges Brew Club//Events//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Macedon Ranges Brew Club
+X-WR-CALDESC:Events from the Macedon Ranges Brew Club
+X-WR-TIMEZONE:Australia/Melbourne
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+BEGIN:VEVENT
+UID:20261107-brewstock@macedonrangesbrewclub.com.au
+DTSTAMP:20261118T104618Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:Brewstock
+LOCATION:TBC
+DESCRIPTION:We will be joining other Victorian brew clubs for Brewstock. Ou
+ r theme will be New Zealand. There will be music\, brew talks\, plenty of 
+ beer. Should be a great day.
+URL:https://macedonrangesbrewclub.com.au/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261117-kyneton-show-cutoff-date@macedonrangesbrewclub.com.au
+DTSTAMP:20261118T104618Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:Kyneton Show cutoff date
+LOCATION:Kyneton Showgrounds
+DESCRIPTION:Get your entries in! Lots of great prizes on offer. See the Kyn
+ eton Show Homebrew Comp page on this site.
+URL:https://macedonrangesbrewclub.com.au/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261119-kyneton-show-judging@macedonrangesbrewclub.com.au
+DTSTAMP:20261118T104618Z
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Kyneton Show Judging
+LOCATION:Kyneton Showgrounds
+DESCRIPTION:Always a fun day judging everybody's cracking beers.
+URL:https://macedonrangesbrewclub.com.au/
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
