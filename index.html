@@ -238,6 +238,9 @@ body.is-admin .admin-only-flex{display:flex;}
 .cal-sub-link code{display:block;margin-top:0.3rem;color:var(--gold3);user-select:all;}
 .cal-sub-copied{color:var(--gold);font-size:0.85rem;margin-top:0.4rem;min-height:1.1em;}
 
+/* On phones, calendar labels show just the title (there's no room for the time too) */
+@media(max-width:600px){.pill-time{display:none;}}
+
 /* FOOTER */
 footer{background:#120a04;border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--faint);font-family:var(--body);font-size:0.92rem;letter-spacing:0.05em;}
 footer .ft2{margin-top:0.25rem;color:#4a3020;}
@@ -576,6 +579,12 @@ function todayStr(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMon
 function formatDate(iso){if(!iso)return '';const[y,m,d]=iso.split('-');return `${parseInt(d)} ${MONTHS[parseInt(m)-1]} ${y}`;}
 function tagColor(tag){return {'Competition':'#b5651d','Club News':'#4a7c59','Event Recap':'#7a6a3e','Brewing Tips':'#3a6b8a','Announcement':'#6b3a7a'}[tag]||'#8b7355';}
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// Event times: "14:00" -> minutes after midnight (null if blank), shown as "2:00pm" (or "2pm" when short)
+function parseTime(v){const m=/^(\d{1,2}):(\d{2})(?::\d{2})?\s*([ap]\.?m\.?)?$/i.exec(String(v||'').trim());if(!m)return null;let h=+m[1];const mi=+m[2];const ap=m[3]&&m[3][0].toLowerCase();if(ap){if(h<1||h>12)return null;if(ap==='p'&&h!==12)h+=12;if(ap==='a'&&h===12)h=0;}if(h>23||mi>59)return null;return h*60+mi;}
+function fmtTime(min,short){const h=Math.floor(min/60)%24,m=min%60,h12=h%12||12,ap=h<12?'am':'pm';return (short&&m===0)?`${h12}${ap}`:`${h12}:${pad(m)}${ap}`;}
+function timeLabel(ev){const s=parseTime(ev.start_time);if(s===null)return '';const e=parseTime(ev.end_time);return (e===null||e===s)?`From ${fmtTime(s)}`:`${fmtTime(s)} – ${fmtTime(e)}`;}
+function evMeta(ev){return [timeLabel(ev),ev.location].filter(Boolean).map(escHtml).join(' · ');}
+function evSort(a,b){const d=(a.date||'').localeCompare(b.date||'');if(d)return d;const ta=parseTime(a.start_time),tb=parseTime(b.start_time);return (ta===null?-1:ta)-(tb===null?-1:tb);}
 function sep(){return `<div class="sep"><div class="sep-line-l"></div><svg width="28" height="18" viewBox="0 0 28 18"><ellipse cx="14" cy="9" rx="6" ry="9" fill="#8b6914" opacity="0.6"/><line x1="14" y1="0" x2="14" y2="18" stroke="#6b4e10" stroke-width="1.2"/></svg><div class="sep-line-r"></div></div>`;}
 
 // ── FETCH DATA FROM GITHUB JSON FILES ─────────────────────────
@@ -606,13 +615,13 @@ function showPage(name){
 
 // ── HOME EVENTS ───────────────────────────────────────────────
 function renderHomeEvents(){
-  const sorted=[...allEvents].sort((a,b)=>a.date.localeCompare(b.date)).filter(e=>e.date>=todayStr()).slice(0,3);
+  const sorted=[...allEvents].sort(evSort).filter(e=>e.date>=todayStr()).slice(0,3);
   const el=document.getElementById('home-events');
   if(sorted.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;text-align:center;padding:1rem;">No upcoming events — check back soon.</p>`;return;}
   el.innerHTML=sorted.map(ev=>`
     <div class="event-row">
       <div class="event-day"><div class="num">${parseInt(ev.date.split('-')[2])}</div><div class="mon">${MONTHS_SHORT[parseInt(ev.date.split('-')[1])-1]}</div></div>
-      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${(ev.description||'').split('\n').join('<br>')}</div></div>
+      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${evMeta(ev)}</div><div class="desc">${(ev.description||'').split('\n').join('<br>')}</div></div>
     </div>`).join('');
 }
 
@@ -673,11 +682,11 @@ function renderCalendar(){
   for(let i=0;i<firstDay;i++)html+=`<div class="cal-cell empty"></div>`;
   for(let d=1;d<=daysInMonth;d++){
     const iso=`${calYear}-${pad(calMonth+1)}-${pad(d)}`;
-    const dayEvs=allEvents.filter(e=>e.date===iso);
+    const dayEvs=allEvents.filter(e=>e.date===iso).sort(evSort);
     const isTd=iso===td,isSel=selDay===d;
     html+=`<div class="cal-cell${isTd?' today':''}${isSel?' selected':''}" onclick="selectDay(${d})">
       <div class="day-num">${d}</div>
-      ${dayEvs.map(e=>`<div class="cal-pill">${escHtml(e.title)}</div>`).join('')}
+      ${dayEvs.map(e=>`<div class="cal-pill">${parseTime(e.start_time)!==null?`<span class="pill-time">${fmtTime(parseTime(e.start_time),true)} </span>`:''}${escHtml(e.title)}</div>`).join('')}
     </div>`;
   }
   document.getElementById('cal-cells').innerHTML=html;
@@ -690,26 +699,26 @@ function renderSelDay(){
   sec.style.display='block';
   document.getElementById('sel-day-title').textContent=`${selDay} ${MONTHS[calMonth]}`;
   const iso=`${calYear}-${pad(calMonth+1)}-${pad(selDay)}`;
-  const dayEvs=allEvents.filter(e=>e.date===iso);
+  const dayEvs=allEvents.filter(e=>e.date===iso).sort(evSort);
   document.getElementById('sel-day-events').innerHTML=dayEvs.length===0
     ?`<p style="color:var(--faint);font-style:italic;font-size:0.97rem;">No events on this day.</p>`
     :dayEvs.map(ev=>`
       <div class="event-card-edit">
         <div>
           <div style="font-family:var(--serif);color:var(--cream);font-style:italic;">${escHtml(ev.title)}</div>
-          <div style="color:var(--gold3);font-size:0.97rem;margin-top:0.2rem;">${escHtml(ev.location)}</div>
+          <div style="color:var(--gold3);font-size:0.97rem;margin-top:0.2rem;">${evMeta(ev)}</div>
           <div style="color:var(--dim);font-size:0.97rem;margin-top:0.3rem;line-height:1.6;">${(ev.description||'').split('\n').join('<br>')}</div>
         </div>
       </div>`).join('');
 }
 function renderUpcoming(){
-  const sorted=[...allEvents].sort((a,b)=>a.date.localeCompare(b.date));
+  const sorted=[...allEvents].sort(evSort);
   const el=document.getElementById('upcoming-list');
   if(sorted.length===0){el.innerHTML=`<p style="color:var(--faint);font-style:italic;">No events yet.</p>`;return;}
   el.innerHTML=sorted.map(ev=>`
     <div class="event-row" style="margin-bottom:0.75rem;">
       <div class="event-day"><div class="num">${parseInt(ev.date.split('-')[2])}</div><div class="mon">${MONTHS_SHORT[parseInt(ev.date.split('-')[1])-1]}</div></div>
-      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${escHtml(ev.location)}</div><div class="desc">${(ev.description||'').split('\n').join('<br>')}</div></div>
+      <div class="event-info"><div class="title">${escHtml(ev.title)}</div><div class="loc">${evMeta(ev)}</div><div class="desc">${(ev.description||'').split('\n').join('<br>')}</div></div>
     </div>`).join('');
 }
 
