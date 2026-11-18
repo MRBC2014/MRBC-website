@@ -54,9 +54,58 @@ function parseDate(value) {
   return date;
 }
 
+// Turns "14:00" (or "2:00 PM") into minutes after midnight, or null if blank/invalid.
+function parseTime(value) {
+  const match = /^(\d{1,2}):(\d{2})(?::\d{2})?\s*([ap]\.?m\.?)?$/i.exec(String(value || '').trim());
+  if (!match) return null;
+  let hours = +match[1];
+  const minutes = +match[2];
+  const ampm = match[3] && match[3][0].toLowerCase();
+  if (ampm) {
+    if (hours < 1 || hours > 12) return null;
+    if (ampm === 'p' && hours !== 12) hours += 12;
+    if (ampm === 'a' && hours === 12) hours = 0;
+  }
+  if (hours > 23 || minutes > 59) return null;
+  return hours * 60 + minutes;
+}
+
 function dateStamp(date) {
   return date.toISOString().slice(0, 10).replace(/-/g, '');
 }
+
+// "20261205T140000" for a date plus a number of minutes (which may run past midnight).
+function dateTimeStamp(date, minutes) {
+  const d = new Date(date.getTime() + minutes * 60 * 1000);
+  return d.toISOString().slice(0, 19).replace(/[-:]/g, '');
+}
+
+const TIMEZONE = 'Australia/Melbourne';
+const DEFAULT_LENGTH_MINUTES = 2 * 60; // used when an event has a start time but no end time
+
+// Melbourne's time zone rules (daylight saving starts on the first Sunday in
+// October and ends on the first Sunday in April), so calendar apps place
+// timed events correctly.
+const VTIMEZONE = [
+  'BEGIN:VTIMEZONE',
+  `TZID:${TIMEZONE}`,
+  `X-LIC-LOCATION:${TIMEZONE}`,
+  'BEGIN:STANDARD',
+  'TZOFFSETFROM:+1100',
+  'TZOFFSETTO:+1000',
+  'TZNAME:AEST',
+  'DTSTART:19700405T030000',
+  'RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=1SU',
+  'END:STANDARD',
+  'BEGIN:DAYLIGHT',
+  'TZOFFSETFROM:+1000',
+  'TZOFFSETTO:+1100',
+  'TZNAME:AEDT',
+  'DTSTART:19701004T020000',
+  'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=1SU',
+  'END:DAYLIGHT',
+  'END:VTIMEZONE',
+];
 
 // A short, stable name for each event so calendar apps can recognise it
 // again next time they check the feed.
@@ -91,6 +140,8 @@ function build() {
 
   const usedIds = new Set();
   let included = 0;
+  let usesTimes = false;
+  const timezoneAt = lines.length; // the time zone rules go here if any event has a time
 
   for (const event of events) {
     const start = parseDate(event && event.date);
@@ -98,8 +149,26 @@ function build() {
       console.warn(`Skipping an event with a missing or invalid date: ${JSON.stringify(event)}`);
       continue;
     }
-    // All-day events: the end date is the day after the start date.
-    const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+    // Events with a start time are placed at that time (Melbourne time).
+    // Events without one are all-day: the end date is the day after the start date.
+    const startMinutes = parseTime(event.start_time);
+    let whenLines;
+    if (startMinutes === null) {
+      const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+      whenLines = [`DTSTART;VALUE=DATE:${dateStamp(start)}`, `DTEND;VALUE=DATE:${dateStamp(end)}`];
+    } else {
+      let endMinutes = parseTime(event.end_time);
+      if (endMinutes === null || endMinutes === startMinutes) {
+        endMinutes = startMinutes + DEFAULT_LENGTH_MINUTES;
+      } else if (endMinutes < startMinutes) {
+        endMinutes += 24 * 60; // e.g. 7pm to 1am finishes the next morning
+      }
+      whenLines = [
+        `DTSTART;TZID=${TIMEZONE}:${dateTimeStamp(start, startMinutes)}`,
+        `DTEND;TZID=${TIMEZONE}:${dateTimeStamp(start, endMinutes)}`,
+      ];
+      usesTimes = true;
+    }
 
     let id = `${dateStamp(start)}-${slug(event.title)}`;
     let n = 2;
@@ -110,8 +179,7 @@ function build() {
       'BEGIN:VEVENT',
       `UID:${id}@${SITE}`,
       `DTSTAMP:${now}`,
-      `DTSTART;VALUE=DATE:${dateStamp(start)}`,
-      `DTEND;VALUE=DATE:${dateStamp(end)}`,
+      ...whenLines,
       `SUMMARY:${escapeText(event.title || 'Club event')}`,
     );
     if (event.location) lines.push(`LOCATION:${escapeText(event.location)}`);
@@ -120,6 +188,7 @@ function build() {
     included++;
   }
 
+  if (usesTimes) lines.splice(timezoneAt, 0, ...VTIMEZONE);
   lines.push('END:VCALENDAR');
 
   fs.writeFileSync(OUTPUT_FILE, lines.map(foldLine).join('\r\n') + '\r\n', 'utf8');

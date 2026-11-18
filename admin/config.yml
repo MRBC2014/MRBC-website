@@ -22,6 +22,8 @@ collections:
             fields:
               - { label: "Event Title", name: "title", widget: "string" }
               - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+              - { label: "Start time (optional)", name: "start_time", widget: "datetime", format: "HH:mm", date_format: false, time_format: "h:mm A", required: false, default: "", hint: "Leave blank for an all-day event." }
+              - { label: "End time (optional)", name: "end_time", widget: "datetime", format: "HH:mm", date_format: false, time_format: "h:mm A", required: false, default: "", hint: "If left blank, calendars show the event as 2 hours long." }
               - { label: "Location", name: "location", widget: "string" }
               - { label: "Description", name: "description", widget: "text" }
 
