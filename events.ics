@@ -28,7 +28,7 @@ END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:20261107-brewstock@macedonrangesbrewclub.com.au
-DTSTAMP:20261118T121255Z
+DTSTAMP:20261118T123049Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:Brewstock
@@ -41,7 +41,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:20261117-kyneton-show-cutoff-date@macedonrangesbrewclub.com.au
-DTSTAMP:20261118T121255Z
+DTSTAMP:20261118T123049Z
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
 SUMMARY:Kyneton Show cutoff date
@@ -53,7 +53,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:20261119-kyneton-show-judging@macedonrangesbrewclub.com.au
-DTSTAMP:20261118T121255Z
+DTSTAMP:20261118T123049Z
 DTSTART;VALUE=DATE:20261119
 DTEND;VALUE=DATE:20261120
 SUMMARY:Kyneton Show Judging
@@ -63,12 +63,12 @@ URL:https://macedonrangesbrewclub.com.au/
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:20261125-club-meeting-plus-system-wars-como@macedonrangesbrewclub.com.a
+UID:20261125-club-meeting-plus-system-wars-comp@macedonrangesbrewclub.com.a
  u
-DTSTAMP:20261118T121255Z
+DTSTAMP:20261118T123049Z
 DTSTART;TZID=Australia/Melbourne:20261125T190000
 DTEND;TZID=Australia/Melbourne:20261125T220000
-SUMMARY:Club Meeting plus System Wars como
+SUMMARY:Club Meeting plus System Wars comp
 LOCATION:Holgate Brewhouse\, Woodend
 DESCRIPTION:Last meeting for the year! And we'll be judging everyone's Summ
  er Ale\, should be lots of fun!
