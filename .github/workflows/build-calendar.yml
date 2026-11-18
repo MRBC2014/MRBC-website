@@ -1,0 +1,59 @@
+# Keeps the calendar feed (events.ics) up to date.
+#
+# Whenever the events list (_data/events.json) changes on the live branch,
+# GitHub runs this automatically: it rebuilds events.ics and saves it.
+# It only ever changes that one file.
+#
+# It can also be run by hand from the "Actions" tab on GitHub
+# ("Build calendar feed" > "Run workflow").
+
+name: Build calendar feed
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_data/events.json'
+      - 'scripts/build-calendar.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# If several events are saved quickly, handle them one at a time.
+concurrency:
+  group: build-calendar
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Always use the newest copy of the live branch, so the feed
+      # reflects the latest events even if several were saved in a row.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build events.ics from the events list
+        run: node scripts/build-calendar.js
+
+      - name: Save events.ics if anything changed
+        run: |
+          if git diff --quiet -- events.ics && git ls-files --error-unmatch events.ics >/dev/null 2>&1; then
+            echo "Calendar feed is already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add events.ics
+          git commit -m "Update calendar feed (events.ics)"
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 5
+          done
+          echo "Could not save events.ics after 3 attempts." && exit 1

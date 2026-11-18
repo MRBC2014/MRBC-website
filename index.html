@@ -227,6 +227,17 @@ body.is-admin .admin-only-flex{display:flex;}
 .kyneton-dates p{margin-bottom:0.5rem;}
 .kyneton-dates p:last-child{margin-bottom:0;}
 
+/* CALENDAR SUBSCRIBE BOX */
+.cal-subscribe{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:2px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;text-align:center;}
+.cal-subscribe h3{font-family:var(--serif);color:var(--cream);font-size:1.2rem;font-style:italic;margin-bottom:0.4rem;}
+.cal-subscribe p{color:var(--muted);font-size:0.95rem;margin-bottom:0.9rem;}
+.cal-sub-btns{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;}
+.btn-cal-sub{display:inline-block;background:rgba(232,160,32,0.15);border:1.5px solid var(--gold2);color:var(--gold);font-family:var(--serif);font-size:0.95rem;font-style:italic;padding:0.5rem 1rem;border-radius:2px;text-decoration:none;cursor:pointer;transition:background 0.2s;}
+.btn-cal-sub:hover{background:rgba(232,160,32,0.3);}
+.cal-sub-link{margin-top:0.9rem;font-size:0.85rem;color:var(--dim);word-break:break-all;}
+.cal-sub-link code{display:block;margin-top:0.3rem;color:var(--gold3);user-select:all;}
+.cal-sub-copied{color:var(--gold);font-size:0.85rem;margin-top:0.4rem;min-height:1.1em;}
+
 /* FOOTER */
 footer{background:#120a04;border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--faint);font-family:var(--body);font-size:0.92rem;letter-spacing:0.05em;}
 footer .ft2{margin-top:0.25rem;color:#4a3020;}
@@ -349,6 +360,17 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
     <h1 style="font-family:var(--serif);color:var(--cream);font-size:2.2rem;font-style:italic;text-align:center;margin-bottom:0.25rem;">Events Calendar</h1>
     <p style="text-align:center;color:var(--gold2);font-size:0.97rem;letter-spacing:0.12em;margin-bottom:1.5rem;text-transform:uppercase;">Macedon Ranges Brew Club</p>
     <div class="admin-only admin-note">You're logged in as admin. To add or edit events, use the <a href="/admin/" style="color:var(--gold);">CMS Admin panel</a>.</div>
+    <div class="cal-subscribe">
+      <h3>Subscribe to our calendar</h3>
+      <p>Add club events to your own calendar. New and updated events will appear automatically.</p>
+      <div class="cal-sub-btns">
+        <a class="btn-cal-sub" href="https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fmacedonrangesbrewclub.com.au%2Fevents.ics" target="_blank" rel="noopener">Add to Google Calendar</a>
+        <a class="btn-cal-sub" href="webcal://macedonrangesbrewclub.com.au/events.ics">Add to Apple Calendar</a>
+        <button type="button" class="btn-cal-sub" onclick="copyCalLink()">Copy calendar link</button>
+      </div>
+      <div class="cal-sub-copied" id="cal-sub-copied" aria-live="polite"></div>
+      <div class="cal-sub-link">Or add this link in any calendar app: <code id="cal-sub-url">https://macedonrangesbrewclub.com.au/events.ics</code></div>
+    </div>
     <div class="cal-header">
       <button class="cal-nav" onclick="calPrev()">&#8249;</button>
       <span class="cal-title" id="cal-month-title"></span>
@@ -738,6 +760,21 @@ function renderRecipes(){
       +'<div class="recipe-sections">'+malt+hops+mash+yeast+'</div>'
       +'</div></div>';
   }).join('');
+}
+
+// ── CALENDAR SUBSCRIBE ────────────────────────────────────────
+async function copyCalLink(){
+  const url=document.getElementById('cal-sub-url').textContent;
+  const msg=document.getElementById('cal-sub-copied');
+  try{
+    await navigator.clipboard.writeText(url);
+    msg.textContent='Link copied! Paste it into your calendar app.';
+  }catch(e){
+    const range=document.createRange();
+    range.selectNodeContents(document.getElementById('cal-sub-url'));
+    const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+    msg.textContent='Link selected — copy it, then paste it into your calendar app.';
+  }
 }
 
 // ── LOAD DATA & INIT ──────────────────────────────────────────
