@@ -3,20 +3,34 @@
     {
       "title": "Brewstock",
       "date": "2026-11-07",
+      "start_time": "",
+      "end_time": "",
       "location": "TBC",
       "description": "We will be joining other Victorian brew clubs for Brewstock. Our theme will be New Zealand. There will be music, brew talks, plenty of beer. Should be a great day."
     },
     {
       "title": "Kyneton Show cutoff date",
       "date": "2026-11-17",
+      "start_time": "",
+      "end_time": "",
       "location": "Kyneton Showgrounds",
       "description": "Get your entries in! Lots of great prizes on offer. See the Kyneton Show Homebrew Comp page on this site."
     },
     {
       "title": "Kyneton Show Judging",
       "date": "2026-11-19",
+      "start_time": "",
+      "end_time": "",
       "location": "Kyneton Showgrounds",
       "description": "Always a fun day judging everybody's cracking beers."
+    },
+    {
+      "title": "Club Meeting plus System Wars como",
+      "date": "2026-11-25",
+      "start_time": "19:00",
+      "end_time": "22:00",
+      "location": "Holgate Brewhouse, Woodend",
+      "description": "Last meeting for the year! And we'll be judging everyone's Summer Ale, should be lots of fun!"
     }
   ]
 }
