@@ -227,6 +227,24 @@ body.is-admin .admin-only-flex{display:flex;}
 .kyneton-dates{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:1.5rem;margin:1.5rem 0;}
 .kyneton-dates p{margin-bottom:0.5rem;}
 .kyneton-dates p:last-child{margin-bottom:0;}
+.kyneton-awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1.25rem;margin:1.5rem 0 0;}
+.award{background:rgba(232,160,32,0.12);border:1.5px solid var(--gold);border-radius:4px;padding:1.1rem 1rem;text-align:center;display:flex;flex-direction:column;gap:0.25rem;}
+.award-label{color:var(--gold);font-family:var(--body);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;}
+.award-name{color:var(--cream);font-family:var(--serif);font-style:italic;font-size:1.35rem;}
+.award-beer{color:var(--gold3);font-family:var(--body);font-size:0.97rem;}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:1.25rem;margin:1.5rem 0 2rem;}
+.result-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:2px;padding:1rem 1.25rem 0.75rem;}
+.result-card h3{font-family:var(--serif);color:var(--cream);font-style:italic;font-size:1.2rem;margin-bottom:0.5rem;}
+.results-table{width:100%;border-collapse:collapse;font-family:var(--body);font-size:0.95rem;}
+.results-table th{text-align:left;font-weight:normal;color:var(--gold2);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.5rem;border-bottom:1px solid var(--border2);}
+.results-table td{color:var(--muted);padding:0.5rem;border-bottom:1px solid var(--bg3);vertical-align:top;}
+.results-table tr:last-child td{border-bottom:none;}
+.results-table td:nth-child(2){white-space:nowrap;}
+.results-table td.place{color:var(--gold);font-family:var(--serif);font-style:italic;white-space:nowrap;width:3.5rem;}
+@media(max-width:600px){.result-card{padding:0.9rem 0.9rem 0.6rem;}.results-table th,.results-table td{padding-left:0.35rem;padding-right:0.35rem;}.results-table td:nth-child(2){white-space:normal;}.results-table td.place{width:2.75rem;}}
+.kyneton-photo{margin:2rem 0 0;text-align:center;}
+.kyneton-photo img{width:100%;max-width:560px;margin:0 auto;height:auto;border:1px solid var(--border);border-radius:4px;display:block;}
+.kyneton-photo figcaption{margin-top:0.6rem;font-family:var(--serif);font-style:italic;color:var(--gold3);font-size:0.97rem;}
 
 /* CALENDAR SUBSCRIBE BOX */
 .cal-subscribe{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:2px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;text-align:center;}
@@ -277,7 +295,7 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
     <button class="nav-btn active" onclick="showPage('home')">Home</button>
     <button class="nav-btn" onclick="showPage('involved')">Get Involved</button>
     <button class="nav-btn" onclick="showPage('calendar')">Calendar</button>
-    <button class="nav-btn" onclick="showPage('kyneton')">Kyneton Show</button>
+    <button class="nav-btn" onclick="showPage('kyneton')">Kyneton Show 2026</button>
     <button class="nav-btn" onclick="showPage('news')">News</button>
     <button class="nav-btn" onclick="showPage('recipes')">Recipes</button>
     <button class="nav-btn" onclick="showPage('sponsors')">Friends</button>
@@ -529,26 +547,88 @@ footer .ft2{margin-top:0.25rem;color:#4a3020;}
     </div>
 
     <div class="kyneton-body">
-      <p>Macedon Ranges Brew Club is once again running the homebrew competition for the Kyneton Show. This year will be bigger than ever with a whole host of prizes provided by our wonderful sponsors.</p>
+      <p>With almost 70 entries, this year's Kyneton Show Homebrew Competition is our biggest yet. The judging is now complete and the results for place getters are listed below.</p>
 
-      <h3 class="sub-heading" style="font-size:1.3rem;">Categories</h3>
-      <ul class="kyneton-categories">
-        <li><strong>Pale Ales &lt;7%</strong></li>
-        <li><strong>Dark Ales &lt;7%</strong> — red ales and darker</li>
-        <li><strong>Lagers &lt;7%</strong> — any beer using lager yeast under 7%</li>
-        <li><strong>Strong Beer &gt;7%</strong> — any beer over 7%</li>
-        <li><strong>Speciality Beer</strong> — any beer that doesn't fit the other categories: wheat beer, rye beer, fruit beer, sour beer, etc.</li>
-        <li><strong>Cider</strong> — all items brewed primarily with fruit, cider, perry, etc.</li>
-      </ul>
-
-      <p>The winner of each category will receive a bundle of prizes from Holgate Brewhouse, BeerCo and Backyard Homebrew Co. The best beer on show will receive a slab of beer of your choice from Rock &amp; Ranges and the best aggregate brewer will receive a selection of yeast from Bluestone Yeast.</p>
-
-      <div class="kyneton-dates">
-        <p>Entries close at <strong style="color:var(--cream);">6pm on Tuesday 17th November</strong>, with judging on <strong style="color:var(--cream);">Thursday 19th November</strong>.</p>
-        <p>All entries will be on display at the Show on <strong style="color:var(--cream);">Friday and Saturday 20th and 21st November</strong>.</p>
+      <div class="kyneton-awards">
+        <div class="award"><span class="award-label">Best of Show</span><span class="award-name">Aaron Jenkins</span><span class="award-beer">Westy XII</span></div>
+        <div class="award"><span class="award-label">Champion Brewer</span><span class="award-name">Aaron Jenkins</span></div>
       </div>
 
-      <p>For more information go to <a href="https://www.kynetonshow.org.au/2-home-brew" target="_blank" rel="noopener" style="color:var(--gold);">www.kynetonshow.org.au/2-home-brew</a></p>
+      <div class="results-grid">
+        <div class="result-card">
+          <h3>Pale Ales &lt;7%</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Beer</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Dave Lunt</td><td>Australian Sparkling Ale</td></tr>
+              <tr><td class="place">2nd</td><td>Matt Carroll</td><td>Citra Cash 7</td></tr>
+              <tr><td class="place">3rd</td><td>Matt Carroll</td><td>NZ Hazy</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <h3>Dark Ales &lt;7%</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Beer</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Peter Forbes</td><td>Smoked Porter</td></tr>
+              <tr><td class="place">2nd</td><td>Geoffrey Rowlatt</td><td>Celtic Red Ale</td></tr>
+              <tr><td class="place">3rd</td><td>Dave Lunt</td><td>Dark Mild</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <h3>Lagers &lt;7%</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Beer</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Lachlan Walsh</td><td>Marzen</td></tr>
+              <tr><td class="place">2nd</td><td>Peter Forbes</td><td>Steinbier Marzen</td></tr>
+              <tr><td class="place">3rd</td><td>Paul Chapman</td><td>Bock</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <h3>Strong Beer &gt;7%</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Beer</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Aaron Jenkins</td><td>Westy XII</td></tr>
+              <tr><td class="place">2nd</td><td>Aaron Jenkins</td><td>NIS</td></tr>
+              <tr><td class="place">3rd</td><td>Lachlan Walsh</td><td>Dubbel</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <h3>Speciality Beer</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Beer</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Jarryn Pitts</td><td>Saison</td></tr>
+              <tr><td class="place">2nd</td><td>Aaron Jenkins</td><td>Flanders Red</td></tr>
+              <tr><td class="place">3rd</td><td>Aaron Jenkins</td><td>Oud bruin</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-card">
+          <h3>Cider</h3>
+          <table class="results-table">
+            <thead><tr><th>Place</th><th>Name</th><th>Cider</th></tr></thead>
+            <tbody>
+              <tr><td class="place">1st</td><td>Paul Chapman</td><td>Berry Cider</td></tr>
+              <tr><td class="place">2nd</td><td>Aaron Jenkins</td><td>F cider</td></tr>
+              <tr><td class="place">3rd</td><td>Ross Cornell</td><td>English Dry Cider</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p>A huge thank you to our sponsors, I'm sure our winners will be brewing up their next batch with some fine ingredients from BeerCo, Backyard Homebrew Co and Bluestone Yeast, or else relaxing with a cold Holgate or Rock &amp; Ranges beer.</p>
+
+      <figure class="kyneton-photo">
+        <img src="/images/kyneton-2026-beers.jpg" alt="All the beers entered in the Kyneton Show Homebrew Competition 2026" loading="lazy"/>
+        <figcaption>All our beers for the day</figcaption>
+      </figure>
     </div>
   </div>
 </div>
@@ -610,7 +690,7 @@ function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
-  const label={home:'Home',involved:'Get Involved',calendar:'Calendar',kyneton:'Kyneton Show',news:'News',recipes:'Recipes',sponsors:'Friends'}[name];
+  const label={home:'Home',involved:'Get Involved',calendar:'Calendar',kyneton:'Kyneton Show 2026',news:'News',recipes:'Recipes',sponsors:'Friends'}[name];
   document.querySelectorAll('.nav-btn').forEach(b=>{if(b.textContent.trim()===label)b.classList.add('active');});
   if(name==='calendar')renderCalendar();
   if(name==='news')renderNews();
